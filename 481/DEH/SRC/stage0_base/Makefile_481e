@@ -1,4 +1,7 @@
-CC		:= ppu-gcc
+PS3_KERNEL_PREFIX ?= $(PS3DEV)/ppu-kernel
+CROSS_COMPILE := $(PS3_KERNEL_PREFIX)/bin/powerpc64-ps3-kernel-elf-
+CC := $(CROSS_COMPILE)gcc
+OBJCOPY := $(CROSS_COMPILE)objcopy
 LIBSDIR         =
 LIBS            =
 TARGET		= stage0_base_deh
@@ -18,7 +21,7 @@ all: $(TARGET).bin
 	
 	
 $(TARGET).elf: $(OBJS) 
-	ppu-objcopy -O binary stage0_base_deh.o stage0_base.deh
+	$(OBJCOPY) -O binary stage0_base_deh.o stage0_base.deh
 	rm -f *.o
 
 %.o: %.S
