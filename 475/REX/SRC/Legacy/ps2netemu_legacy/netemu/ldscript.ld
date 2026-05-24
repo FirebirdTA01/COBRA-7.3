@@ -10,7 +10,7 @@ PHDRS {
 }
 
 SECTIONS {
-	. = __base;
+	. = 0;
 	__self_start = .;
 
 	.start : { *(.start) } :stage1 = 0

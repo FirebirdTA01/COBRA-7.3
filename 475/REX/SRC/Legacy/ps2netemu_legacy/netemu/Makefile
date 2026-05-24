@@ -1,11 +1,13 @@
-CC		:= ppu-gcc
-CXX		:= ppu-g++
-LD		:= ppu-ld 
-OBJCOPY		:= ppu-objcopy
-OBJDUMP		:= ppu-objdump
-AR 		:= ppu-ar
-STRIP		:= ppu-strip
-INCLUDE		= ../common ../../ps2emu/include ../../lv1/include ../../debug/include
+PS3_KERNEL_PREFIX ?= $(PS3DEV)/ppu-kernel
+CROSS_COMPILE := $(PS3_KERNEL_PREFIX)/bin/powerpc64-ps3-kernel-elf-
+CC := $(CROSS_COMPILE)gcc
+CXX := $(CROSS_COMPILE)g++
+LD := $(CROSS_COMPILE)ld
+OBJCOPY := $(CROSS_COMPILE)objcopy
+OBJDUMP := $(CROSS_COMPILE)objdump
+AR := $(CROSS_COMPILE)ar
+STRIP := $(CROSS_COMPILE)strip
+INCLUDE		= ../../../ps2emu/include ../../../lv1/include ../../../debug/include
 LIBSDIR         =
 LIBS            =
 BUILD_TYPE      = release
@@ -30,8 +32,8 @@ endif
 LDFLAGS= -T ldscript.ld -nostartfiles -nostdlib -nodefaultlibs -Wl,-static -Wl,-s -L. $(foreach dir,$(LIBSDIR),-L$(dir)) $(LIBS) \
 	-Wl,--gc-sections -Wl,-Map=ps2netemu_stage2.map
 
-OBJS = start.o main.o ../../ps2emu/src/libc.o ../../ps2emu/src/libc_c.o ../../ps2emu/src/memory.o ../../ps2emu/src/io.o \
-	../../ps2emu/src/patch.o 
+OBJS = start.o main.o ../../../ps2emu/src/libc.o ../../../ps2emu/src/libc_c.o ../../../ps2emu/src/memory.o ../../../ps2emu/src/io.o \
+	../../../ps2emu/src/patch.o 
 
 ifeq ($(BUILD_TYPE), debug)
 OBJS += 
@@ -56,4 +58,4 @@ ps2netemu_stage2.elf: $(OBJS) ldscript.ld
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f *.self *.o *.elf *.bin *.map ../../ps2emu/src/*.o ../../lv1/src/*.o ../../debug/src/*.o
+	rm -f *.self *.o *.elf *.bin *.map ../../../ps2emu/src/*.o ../../../lv1/src/*.o ../../../debug/src/*.o

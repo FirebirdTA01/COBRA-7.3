@@ -1,6 +1,8 @@
-CC=ppu-gcc
-STRIP=ppu-strip
-OBJCOPY=ppu-objcopy
+PS3_KERNEL_PREFIX ?= $(PS3DEV)/ppu-kernel
+CROSS_COMPILE := $(PS3_KERNEL_PREFIX)/bin/powerpc64-ps3-kernel-elf-
+CC := $(CROSS_COMPILE)gcc
+STRIP := $(CROSS_COMPILE)strip
+OBJCOPY := $(CROSS_COMPILE)objcopy
 CFLAGS+=-mno-toc -ffunction-sections -fdata-sections -Os $(INC) -DFIRMWARE_4_81 -DPS2EMU 
 LDFLAGS=-Tldscript.ld -nostartfiles -nostdlib -nodefaultlibs -Wl,--gc-sections
 INC=-I. -I../ps2emu/include

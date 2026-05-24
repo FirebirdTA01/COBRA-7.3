@@ -7,7 +7,7 @@
 #include <ps2emu/patch.h>
 #include <ps2emu/symbols.h>
 
-#ifdef FIRMWARE_4_81
+#if defined(FIRMWARE_4_81) || defined(FIRMWARE_4_84)
 #define EXTENDED_DATA	(0x821000+0x2953478) //working
 //#define EXTENDED_DATA	(0x31fe000) //working
 #endif
