@@ -10,7 +10,7 @@ PHDRS {
 }
 
 SECTIONS {
-	. = __base;
+	. = 0;
 
 	.start : { *(.start) } :stage1 = 0
 
@@ -20,5 +20,4 @@ SECTIONS {
 		*(.text.*)
 	}	
 }
-
 

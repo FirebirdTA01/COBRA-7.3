@@ -1,10 +1,12 @@
-CC			:= ppu-gcc
-CXX			:= ppu-g++
-LD			:= ppu-ld
-OBJCOPY		:= ppu-objcopy
-OBJDUMP		:= ppu-objdump
-AR 			:= ppu-ar
-STRIP		:= ppu-strip
+PS3_KERNEL_PREFIX ?= $(PS3DEV)/ppu-kernel
+CROSS_COMPILE := $(PS3_KERNEL_PREFIX)/bin/powerpc64-ps3-kernel-elf-
+CC := $(CROSS_COMPILE)gcc
+CXX := $(CROSS_COMPILE)g++
+LD := $(CROSS_COMPILE)ld
+OBJCOPY := $(CROSS_COMPILE)objcopy
+OBJDUMP := $(CROSS_COMPILE)objdump
+AR := $(CROSS_COMPILE)ar
+STRIP := $(CROSS_COMPILE)strip
 syscall_hooks = syscall_hooks.bin
 INCLUDE		=  ../lv2/include ../lv1/include
 

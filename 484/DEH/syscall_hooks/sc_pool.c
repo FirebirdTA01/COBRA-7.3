@@ -192,11 +192,11 @@ sc_pool_elmnt_t* sc_pool_get_elmnt(void) {
 	// Calculate unique ID
 	uint32_t uid, tmp;
 	__asm__ __volatile__ (
-		"retry_uid: \n\t"
+		"retry_uid_%=: \n\t"
 		"lwarx %[dst], 0, %[addr] \n\t"
 		"addi %[tmp], %[dst], 1 \n\t"
 		"stwcx. %[tmp], 0, %[addr] \n\t"
-		"bne- retry_uid \n\t"
+		"bne- retry_uid_%= \n\t"
 		: [dst] "=&r" (uid), [tmp] "=&r" (tmp)
 		: [addr] "r" (&uid_counter)
 	);
@@ -216,10 +216,10 @@ sc_pool_elmnt_t* sc_pool_get_elmnt(void) {
 
 		// exchange 'in_use' atomically by 1
 		__asm__ __volatile__ (
-			"retry_in_use: \n\t"
+			"retry_in_use_%=: \n\t"
 			"lwarx %[dst], 0, %[addr] \n\t"
 			"stwcx. %[one], 0, %[addr] \n\t"
-			"bne- retry_in_use \n\t"
+			"bne- retry_in_use_%= \n\t"
 			: [dst] "=&r" (in_use)
 			: [addr] "r" (in_use_ptr), [one] "r" (1)
 		);

@@ -10,7 +10,7 @@ PHDRS {
 }
 
 SECTIONS {
-	. = __base;
+	. = 0;
 	__self_start = .;
 
 	.start : { *(.start) } :stage1 = 0
@@ -25,6 +25,7 @@ SECTIONS {
 		*(.rodata.*)
 	}
 
+	. = ALIGN(8);
 	__reloc_start = .;
 
 	.data : {
@@ -61,6 +62,5 @@ SECTIONS {
 
 	__self_end = .;	
 }
-
 
 

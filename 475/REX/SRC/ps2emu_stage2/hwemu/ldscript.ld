@@ -25,6 +25,7 @@ SECTIONS {
 		*(.rodata.*)
 	}
 
+	. = ALIGN(8);
 	__reloc_start = .;
 
 	.data : {

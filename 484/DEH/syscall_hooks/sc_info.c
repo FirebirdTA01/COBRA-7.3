@@ -877,8 +877,7 @@ static int init_syscall_names(void)
 
 
 int init_syscall_info(void) {
-	syscall_info = (syscall_info_t*)malloc(sizeof(syscall_info_t) * MAX_NUM_OF_SYSTEM_CALLS);
-	if(syscall_info == NULL) {
+	if(page_allocate_auto(NULL, sizeof(syscall_info_t) * MAX_NUM_OF_SYSTEM_CALLS, 0x2F, (void **)&syscall_info) != 0 || syscall_info == NULL) {
 		ERROR("ERROR: could not allocate memory for syscall_info!");
 		return -1;
 	}

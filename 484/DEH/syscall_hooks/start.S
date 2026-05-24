@@ -19,6 +19,9 @@ _start:
 	oris	%r6, %r6, 0xBAAD
 	ori	%r6, %r6, 0xCAFE	
 
+	lis	%r9, __toc@ha
+	addi	%r9, %r9, __toc@l
+
 	lis 	%r4, __reloc_start@ha
 	addi 	%r4, %r4, __reloc_start@l
 	lis 	%r5, __reloc_end@ha
@@ -33,8 +36,18 @@ _start:
 	ld 	%r5, 0(%r4)
 	srdi 	%r7, %r5, 32	
 	cmpw 	%r7, %r6
-	bne 	3f	
+	beq 	5f
+	cmpdi	%r5, 0
+	beq	3f
+	cmpdi	%r5, 0
+	blt	3f
+	cmpld	%r5, %r9
+	bge	3f
+	b	6f
+
+5:
 	rldicl 	%r5, %r5, 0, 32
+6:
 	add 	%r5, %r5, %r8
 	std 	%r5, 0(%r4)	
 	

@@ -1,10 +1,12 @@
-CC		:= ppu-gcc
-CXX		:= ppu-g++
-LD		:= ppu-ld 
-OBJCOPY		:= ppu-objcopy
-AR 		:= ppu-ar
-STRIP		:= ppu-strip
-INCLUDE		= ../lv2/include ../lv1/include ../debug/include
+PS3_KERNEL_PREFIX ?= $(PS3DEV)/ppu-kernel
+CROSS_COMPILE := $(PS3_KERNEL_PREFIX)/bin/powerpc64-ps3-kernel-elf-
+CC := $(CROSS_COMPILE)gcc
+CXX := $(CROSS_COMPILE)g++
+LD := $(CROSS_COMPILE)ld
+OBJCOPY := $(CROSS_COMPILE)objcopy
+AR := $(CROSS_COMPILE)ar
+STRIP := $(CROSS_COMPILE)strip
+INCLUDE		= ../../lv2/include ../../lv1/include ../../debug/include
 LIBSDIR         =
 LIBS            =
 TARGET		= stage0
@@ -15,9 +17,9 @@ CFLAGS = -ffunction-sections -fdata-sections -Os -m64 -fno-builtin -fno-exceptio
 			   -DLV2 -DFIRMWARE_4_75 -ffreestanding 
 CFLAGS += --std=gnu99
 LDFLAGS=-nostartfiles -nostdlib -mbig-endian
-LDFLAGS= -T $(TARGET).ld -nostartfiles -nostdlib -nodefaultlibs -Wl,-static -Wl,-s -L. $(foreach dir,$(LIBSDIR),-L$(dir)) $(LIBS) -Wl,--gc-sections -Wl
+LDFLAGS= -T $(TARGET).ld -nostartfiles -nostdlib -nodefaultlibs -Wl,-static -Wl,-s -L. $(foreach dir,$(LIBSDIR),-L$(dir)) $(LIBS) -Wl,--gc-sections
 
-OBJS = start.o main.o ../lv1/src/hvcall.o
+OBJS = start.o main.o ../../lv1/src/hvcall.o
 
 all: $(TARGET).bin
 
@@ -34,4 +36,4 @@ $(TARGET).elf: $(OBJS) $(TARGET).ld
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f *.o *.elf *.bin ../lv1/src/*.o
+	rm -f *.o *.elf *.bin ../../lv1/src/*.o

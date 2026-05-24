@@ -28,6 +28,7 @@ SECTIONS {
 	}
 
 	. = ALIGN(32);
+	. = ALIGN(8);
 	__reloc_start = .;
 	.data : {
 		*(.data)
